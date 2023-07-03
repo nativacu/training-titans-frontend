@@ -1,0 +1,7 @@
+{
+  "name": "training-titans-frontend",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
