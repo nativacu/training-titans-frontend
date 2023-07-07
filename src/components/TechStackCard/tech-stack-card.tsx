@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import './tech-stack-card.scss';
+import { useTranslation } from "react-i18next";
 
 interface TechStackCardProps {
     id: number,
@@ -14,6 +15,8 @@ export const TechStackCard = ({ id, label, trainingCount, onClick, children, foo
     const arr = [1, 2, 3, 4, 5, 6];
     const [counter, setCounter] = useState<number>(0);
 
+    const [t] = useTranslation('common');
+
     // useEffect(() => {
     //     const interval = setInterval(() => {
     //         setCounter(counter + 1);
@@ -24,6 +27,7 @@ export const TechStackCard = ({ id, label, trainingCount, onClick, children, foo
 
     return (
         <div onClick={() => onClick(id)} className="tech-stack-card" >
+            {t('test')}
             {label} <br />
             {trainingCount}
             {children}
