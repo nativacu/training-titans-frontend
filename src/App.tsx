@@ -21,6 +21,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.scss';
+import ResultsPage from './pages/Results/results-page';
 
 setupIonicReact();
 
@@ -33,6 +34,9 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/">
           <Redirect to="/home" />
+        </Route>
+        <Route exact path="/results">
+          <ResultsPage />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
