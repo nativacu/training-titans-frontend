@@ -1,6 +1,6 @@
 import { InputChangeEventDetail, IonButton, IonInput } from "@ionic/react";
 import { ChangeEvent, useState, useEffect } from "react";
-import consumer from "../helpers/cable"
+import consumer, { CHANNEL_ID } from "../helpers/cable"
 
 export const WebSocketService = () => {
     const [message, setMessage] = useState<string>('');
@@ -27,7 +27,7 @@ export const WebSocketService = () => {
 
         consumer.send(
             {
-                "identifier": "{\"channel\":\"ChatChannel\"}",
+                "identifier": CHANNEL_ID,
                 "command": "message",
                 "data": JSON.stringify(action)
             }
