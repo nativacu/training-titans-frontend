@@ -2,5 +2,9 @@
     "RESULTS_PAGE": {
         "SUBTITLE": "Recommendations"
     },
+    "HOME_PAGE": {
+        "WELCOME": "Welcome",
+        "SUBTITLE": "Jump back to training"
+    },
     "test": "This is a test"
 }

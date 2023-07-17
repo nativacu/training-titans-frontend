@@ -1,37 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import './tech-stack-card.scss';
-import { useTranslation } from "react-i18next";
+import { TechStack } from "../../common/types/TechStack";
 
 interface TechStackCardProps {
-    id: number,
-    label: string,
-    trainingCount: number,
-    children: JSX.Element[] | string,
-    footer: JSX.Element[] | string | JSX.Element,
+    techStack?: TechStack,
     onClick: (trainingId: number) => void
 }
 
-export const TechStackCard = ({ id, label, trainingCount, onClick, children, footer }: TechStackCardProps) => {
-    const arr = [1, 2, 3, 4, 5, 6];
-    const [counter, setCounter] = useState<number>(0);
-
-    const [t] = useTranslation('common');
-
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         setCounter(counter + 1);
-    //     }, 2000);
-
-    //     return () => clearInterval(interval);
-    // }, [counter])
+export const TechStackCard = ({ techStack, onClick }: TechStackCardProps) => {
 
     return (
-        <div onClick={() => onClick(id)} className="tech-stack-card" >
-            {t('test')}
-            {label} <br />
-            {trainingCount}
-            {children}
-            {footer}
-        </div>
+        <>
+            {
+                techStack ?
+                    <div onClick={() => onClick(techStack.id)} className="tech-stack-card" >
+                        <p className="ion-text-left">{techStack.creationDate}</p>
+                        <h3>{techStack.name}</h3>
+                        <p className="ion-text-right">{techStack.trainingCount} tries</p>
+                    </div> :
+                    <div className="new-tech-stack-card" onClick={() => onClick(0)}>
+                        <h3>Create new</h3>
+                        <img src="./assets/images/woman-working.png" alt="woman working on laptop"></img>
+                    </div>
+            }
+        </>
     )
 }
