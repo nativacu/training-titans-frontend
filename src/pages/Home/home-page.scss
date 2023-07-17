@@ -1,3 +1,24 @@
+
 .no-shadow-header {
     box-shadow: none;
+}
+.home-container {
+    max-width: 1200px;
+    margin: auto;
+    .tech-stack-list {
+        margin-top: 1rem;
+        h2 {
+            font-weight: bold;
+            margin: 0 0 2rem;
+            text-align: center;
+            font-size: 32px;
+        }
+    }
+}
+
+.gap-3 {
+    gap: 1rem;
+}
+.gap-4 {
+    gap: 1.5rem;
 }
