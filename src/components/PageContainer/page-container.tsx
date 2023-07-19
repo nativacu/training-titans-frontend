@@ -4,15 +4,15 @@ import { PageSubtitle } from "./PageSubtitle/page-subtitle";
 
 interface PageContainerProps {
     subtitle: string,
-    children: JSX.Element[] | string,
+    children: JSX.Element[] | JSX.Element | string,
 }
 
 export const PageContainer = ({ subtitle, children }: PageContainerProps) => {
     return (
-        <IonContent className="page-container ion-padding">
+        <div className="page-container ion-padding">
             <AppTitle/>
             <PageSubtitle translationKey={subtitle}/>
             {children}
-        </IonContent>
+        </div>
     );
 };
