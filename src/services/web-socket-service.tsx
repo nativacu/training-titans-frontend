@@ -1,53 +1,23 @@
 import { InputChangeEventDetail, IonButton, IonInput } from "@ionic/react";
 import { ChangeEvent, useState, useEffect } from "react";
 import consumer, { CHANNEL_ID } from "../helpers/cable"
+import useChatWebSocket from "../common/hooks/useChatWebSocket";
 
-export const WebSocketService = () => {
-    const [message, setMessage] = useState<string>('');
-
-    // Implement useEffect to subscribe and unsubscribe from consumer
-    useEffect(() => {
-        const subscription = consumer.subscriptions.create({
-            channel: 'ChatChannel',
-        }, 
-        {
-            connected: () => console.log('connected'),
-            disconnected: () => console.log('disconnected'),
-            received: data => console.log(data),
-        })
-        
-        // Unsubscribe on component unmount
-        return () => { 
-            subscription.unsubscribe()
-        };
-    }, []);
-
-    const handleSubmit = () => {
-        const action = {action: 'respond', data: message}
-
-        consumer.send(
-            {
-                "identifier": CHANNEL_ID,
-                "command": "message",
-                "data": JSON.stringify(action)
-            }
-        );        
+export const WebSocketComponent = () => {
+    const [message, setMessage] = useState('');
+    const { webSocketData, sendMessage } = useChatWebSocket();
+  
+    const handleSendMessage = () => {
+      sendMessage(message);
+      setMessage('');
     };
-
-    const handleInputChange = (event: InputChangeEventDetail) => {
-        setMessage(event.value || '');
-    };
-
+  
     return (
-        <div>
-            <IonInput
-                value={message}
-                placeholder="Enter your message"
-                onIonChange={(event: CustomEvent<InputChangeEventDetail>) => handleInputChange(event.detail)}
-            />
-            <IonButton expand="full" onClick={handleSubmit}>
-            Send
-            </IonButton>
+      <div>
+        <div>WebSocket Connected: {webSocketData.connected ? 'Yes' : 'No'}</div>
+        <div>WebSocket Data: {webSocketData.data}</div>
+        <input value={message} onChange={(e) => setMessage(e.target.value)} />
+        <button onClick={handleSendMessage}>Send Message</button>
       </div>
     );
 };
