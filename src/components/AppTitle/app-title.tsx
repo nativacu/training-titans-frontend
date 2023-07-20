@@ -3,8 +3,10 @@ import './app-title.scss';
 
 export const AppTitle = () => {
     return (
-        <IonTitle color="primary" className="ion-text-center ion-text-primary">
-            <h1 className="app-title">Training Titans</h1>
+        <IonTitle
+            color="primary" 
+            className="ion-text-center ion-text-primary ion-no-padding app-title">
+            <h1>Training Titans</h1>
         </IonTitle>
     )
 }

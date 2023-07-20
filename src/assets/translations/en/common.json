@@ -1,6 +1,13 @@
 {
     "RESULTS_PAGE": {
-        "SUBTITLE": "Recommendations"
+        "SUBTITLE": "Recommendations",
+        "RECOMMENDATIONS" : {
+            "POSITIVE": "Do",
+            "NEGATIVE": "Don't"
+        },
+        "SUMMARY": {
+            "TITLE": "Summary"
+        }
     },
     "HOME_PAGE": {
         "WELCOME": "Welcome",
