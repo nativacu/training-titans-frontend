@@ -46,7 +46,7 @@ const ProfileSummary = ({ profile, technologies, setStep, onStart }: ProfileSumm
                 <IonButton
                     size="small"
                     color='light'
-                    onClick={() => setStep('description')}
+                    onClick={() => setStep(Steps.Description)}
                 >
                     <IonIcon slot="start" icon={chevronBack} /> Back
                 </IonButton>

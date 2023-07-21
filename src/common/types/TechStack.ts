@@ -28,3 +28,5 @@ export interface TechLanguage {
 }
 
 export type SkillLevel = 'junior' | 'semisenior' | 'senior' | null;
+
+export type ValuesOf<T> = T[keyof T];

@@ -34,7 +34,7 @@ const TechAreaSelection = ({areas, selected, onClick, setStep}: TechAreaSelectio
                     size="small"
                     color='primary'
                     disabled={selected === ''}
-                    onClick={() => setStep('skills')}
+                    onClick={() => setStep(Steps.Skills)}
                 >
                     <IonIcon slot="start" icon={chevronForward} /> Next
                 </IonButton>

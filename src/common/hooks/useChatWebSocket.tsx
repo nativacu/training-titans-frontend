@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import consumer, { CHANNEL_ID } from '../../helpers/cable';
+import consumer, { CHANNEL_ID } from '../helpers/cable';
 
 interface WebSocketData {
   connected: boolean;

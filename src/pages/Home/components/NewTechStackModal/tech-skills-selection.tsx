@@ -101,14 +101,14 @@ const TechSkillSelection = ({ randomSeniority, setRandomSeniority, skillSet, tec
                 <IonButton
                     size="small"
                     color='light'
-                    onClick={() => setStep('area')}
+                    onClick={() => setStep(Steps.Area)}
                 >
                     <IonIcon slot="start" icon={chevronBack} /> Back
                 </IonButton>
                 <IonButton
                     size="small"
                     color='primary'
-                    onClick={() => setStep('description')}
+                    onClick={() => setStep(Steps.Description)}
                 >
                     <IonIcon slot="start" icon={chevronForward} /> Start
                 </IonButton>
