@@ -1,6 +1,8 @@
 import { IonCol, IonContent, IonHeader, IonPage, IonRow } from '@ionic/react';
 import { TechStackCard } from '../../components/TechStackCard/tech-stack-card';
 import { AppTitle } from '../../components/AppTitle/app-title';
+import { WebSocketComponent } from '../../services/web-socket-service';
+
 import './home-page.scss';
 import { PageSubtitle } from '../../components/PageContainer/PageSubtitle/page-subtitle';
 import CardContainer from '../../components/CardContainer/card-container';

@@ -16,5 +16,5 @@ export const PageSubtitle = ({ translationKey }: PageSubtitleProps) => {
                 {t(translationKey)}
             </h2>
         </IonLabel>
-    )
+    );
 }

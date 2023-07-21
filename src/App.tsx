@@ -22,7 +22,7 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.scss";
-import ResultsPage from "./pages/Results/results-page";
+import { ResultsPage } from "./pages/Results/results-page";
 
 setupIonicReact();
 
@@ -40,7 +40,11 @@ const App: React.FC = () => (
           <Call />
         </Route>
         <Route exact path="/results">
-          <ResultsPage />
+          <ResultsPage
+            positiveFeedback={""}
+            negativeFeedback={""}
+            transcript={""}
+          />
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
