@@ -73,6 +73,7 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
 
     const onStart = () => {
         history.push('/call');
+        handleDismiss();
     }
 
     return (
