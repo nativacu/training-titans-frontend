@@ -30,27 +30,6 @@ const TranscriptCall = () => {
           <div className="content">{item.text}</div>
         </div>
       ))}
-
-      <IonRow
-        style={{
-          justifyContent: "center",
-          alignItems: "Center",
-          marginTop: "2em",
-        }}
-      >
-        <IonCol size="10">
-          <input
-            type="text"
-            className="input"
-            placeholder="Write something..."
-          />
-        </IonCol>
-        <IonCol size="2">
-          <IonButton size="default" color="primary" style={{ width: "100%" }}>
-            <IonIcon slot="start" icon={sendOutline} /> Send
-          </IonButton>
-        </IonCol>
-      </IonRow>
     </div>
   );
 };
