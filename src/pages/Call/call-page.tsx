@@ -57,11 +57,15 @@ const HomePage: React.FC = () => {
           </IonRow>
           <h2 className="subtitle">Call</h2>
           <CardContainer className="ion-flex tech-stack-list">
-            <IonRow>
+            <IonRow
+              style={{
+                width: "100% !important",
+              }}
+            >
               <IonCol size="3">
                 <CandidateCall />
               </IonCol>
-              <IonCol size="8">
+              <IonCol size="9">
                 <TranscriptCall />
               </IonCol>
             </IonRow>

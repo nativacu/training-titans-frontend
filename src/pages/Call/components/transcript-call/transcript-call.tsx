@@ -8,15 +8,23 @@ import { IonCol, IonContent, IonHeader, IonPage, IonRow } from "@ionic/react";
 const TranscriptCall = () => {
   const transcript = [
     {
-      type: "You",
+      type: "you",
       text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
     },
     {
-      type: "Candidate",
+      type: "candidate",
       text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
     },
     {
-      type: "You",
+      type: "you",
+      text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
+    },
+    {
+      type: "candidate",
+      text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
+    },
+    {
+      type: "you",
       text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
     },
   ];
@@ -24,12 +32,17 @@ const TranscriptCall = () => {
   return (
     <div className="section">
       <h2 className="subtitle">Transcript</h2>
-      {transcript.map((item, index) => (
-        <div className="card" key={index}>
-          <h3>{item.type}</h3>
-          <div className="content">{item.text}</div>
-        </div>
-      ))}
+
+      <div className="content-transcript">
+        {transcript.map((item, index) => (
+          <div className={`card `} key={index}>
+            {/* <h3>{item.type}</h3> */}
+            <div className={`content ${item.type === "you" && "you"}`}>
+              {item.text}
+            </div>
+          </div>
+        ))}
+      </div>
 
       <IonRow
         style={{
