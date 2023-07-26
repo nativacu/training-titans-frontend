@@ -43,14 +43,14 @@ const TechDescription = ({ description, language, setDescription, setLanguage, s
                 <IonButton
                     size="small"
                     color='light'
-                    onClick={() => setStep('skills')}
+                    onClick={() => setStep(Steps.Skills)}
                 >
                     <IonIcon slot="start" icon={chevronBack} /> Back
                 </IonButton>
                 <IonButton
                     size="small"
                     color='primary'
-                    onClick={() => setStep('profile')}
+                    onClick={() => setStep(Steps.Profile)}
                 >
                     <IonIcon slot="start" icon={chevronForward} /> View Profile Details
                 </IonButton>

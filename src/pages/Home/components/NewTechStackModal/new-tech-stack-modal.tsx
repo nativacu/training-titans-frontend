@@ -1,13 +1,12 @@
-import { IonIcon, IonButton, IonItem, IonList, IonSelect, IonSelectOption, IonLabel, IonCol, IonRow, IonCheckbox, IonToggle } from "@ionic/react";
 import React, { useState } from "react";
 import './new-tech-stack-modal.scss';
 import AppModal from "../../../../components/AppModal/app-modal";
-import { chevronForward, chevronBack, add } from 'ionicons/icons';
-import { Skill, SkillLevel, TechArea, TechLanguage, TechProfile } from "../../../../common/types/TechStack";
+import { TechArea, TechLanguage, TechProfile, ValuesOf } from "../../../../common/types/TechStack";
 import TechAreaSelection from "./tech-area-selection";
 import TechSkillSelection from "./tech-skills-selection";
 import TechDescription from "./tech-description";
 import ProfileSummary from "./profile-summary";
+import { useHistory } from "react-router";
 
 interface NewTechStackModalProps {
     isOpen: boolean,
@@ -15,15 +14,23 @@ interface NewTechStackModalProps {
     onDismiss: () => void
 }
 
-export type Steps = 'area' | 'skills' | 'description' | 'profile';
+export enum Steps {
+    Area = 'area',
+    Skills = 'skills',
+    Description = 'description',
+    Profile = 'profile'
+}
+
+export type Step = ValuesOf<Steps>;
 
 const cleanProfile = { area: '', skillSet: [{ technology_id: 0, level: null }], description: '', language: 'English' };
 
 const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm, onDismiss }) => {
 
-    const [step, setStep] = useState<Steps>('area');
+    const [step, setStep] = useState<Step>(Steps.Area);
     const [randomSeniority, setRandomSeniority] = useState(false);
     const [selection, setSelection] = useState<TechProfile>({ ...cleanProfile });
+    const history = useHistory();
 
     const technologies: TechLanguage[] = [
         { id: 1, name: 'React' },
@@ -60,8 +67,13 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
 
     const handleDismiss = () => {
         setSelection({ ...cleanProfile });
-        setStep('area');
+        setStep(Steps.Area);
         onDismiss();
+    }
+
+    const onStart = () => {
+        history.push('/call');
+        handleDismiss();
     }
 
     return (
@@ -107,7 +119,7 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
                         profile={selection}
                         technologies={technologies}
                         setStep={setStep}
-                        onStart={() => console.log(selection)}
+                        onStart={onStart}
                     />
                 }
             </div>

@@ -1,33 +1,35 @@
 import "./transcript-call.scss";
 
 import { IonButton, IonIcon } from "@ionic/react";
-import { volumeMediumOutline, micOutline, sendOutline } from "ionicons/icons";
+import { sendOutline } from "ionicons/icons";
 
-import { IonCol, IonContent, IonHeader, IonPage, IonRow } from "@ionic/react";
+import { IonCol, IonRow } from "@ionic/react";
+import { useEffect, useState } from "react";
+import useChatWebSocket from "../../../../common/hooks/useChatWebSocket";
+
+interface Message {
+  type: "you" | "candidate";
+  text: string;
+}
 
 const TranscriptCall = () => {
-  const transcript = [
-    {
-      type: "you",
-      text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-    },
-    {
-      type: "candidate",
-      text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-    },
-    {
-      type: "you",
-      text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-    },
-    {
-      type: "candidate",
-      text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-    },
-    {
-      type: "you",
-      text: "is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. ",
-    },
-  ];
+  const [transcript, setTranscript] = useState<Message[]>([]);
+  const [message, setMessage] = useState("");  
+  const { webSocketData, sendMessage } = useChatWebSocket();
+
+  const handleClick = () => {
+    if (message.length) {
+      setTranscript([...transcript, {type: "you", text: message}]);
+      sendMessage(message);
+    }
+  }
+
+  useEffect(() => {
+    if (webSocketData.data) {
+      setTranscript([...transcript, {type: "candidate", text: webSocketData.data}])
+    }
+  }, [webSocketData]);
+
 
   return (
     <div className="section">
@@ -56,10 +58,12 @@ const TranscriptCall = () => {
             type="text"
             className="input"
             placeholder="Write something..."
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
           />
         </IonCol>
         <IonCol size="2">
-          <IonButton size="default" color="primary" style={{ width: "100%" }}>
+          <IonButton size="default" color="primary" style={{ width: "100%" }} onClick={handleClick}>
             <IonIcon slot="start" icon={sendOutline} /> Send
           </IonButton>
         </IonCol>

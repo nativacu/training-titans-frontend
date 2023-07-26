@@ -18,14 +18,25 @@ import CandidateCall from "./components/candidate-call/candidate-call";
 import TranscriptCall from "./components/transcript-call/transcript-call";
 
 import {
-  volumeMediumOutline,
-  sendOutline,
   reloadOutline,
   closeOutline,
 } from "ionicons/icons";
+import { useHistory } from "react-router";
 
 const HomePage: React.FC = () => {
   const [t] = useTranslation("common");
+  const history = useHistory();
+
+  const handleClose = () => {
+    history.push({
+      pathname: '/results',
+      state: {
+        positiveFeedback: "",
+        negativeFeedback: "",
+        transcript:""
+      }
+    });
+  };  
 
   useEffect(() => {}, []);
 
@@ -47,7 +58,7 @@ const HomePage: React.FC = () => {
               <PageSubtitle translationKey="Training React and Next Js" />
             </IonCol>
             <IonCol style={{ textAlign: "right" }}>
-              <IonButton size="default" color="danger" fill="outline">
+              <IonButton size="default" color="danger" fill="outline" onClick={handleClose}>
                 <IonIcon slot="start" icon={closeOutline} /> Finish
               </IonButton>
               <IonButton size="default" color="primary">

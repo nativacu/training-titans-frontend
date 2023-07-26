@@ -1,6 +1,6 @@
 import { InputChangeEventDetail, IonButton, IonInput } from "@ionic/react";
 import { ChangeEvent, useState, useEffect } from "react";
-import consumer, { CHANNEL_ID } from "../helpers/cable"
+import consumer, { CHANNEL_ID } from "../common/helpers/cable"
 import useChatWebSocket from "../common/hooks/useChatWebSocket";
 
 export const WebSocketComponent = () => {
