@@ -1,18 +1,17 @@
 import React from "react";
-import { TechArea } from "../../../../common/types/TechStack";
-import { IonButton, IonIcon, IonItem, IonList, IonSelect, IonSelectOption, IonTextarea } from "@ionic/react";
+import { IonButton, IonIcon, IonInput, IonItem, IonList, IonSelect, IonSelectOption, IonTextarea } from "@ionic/react";
 import { chevronBack, chevronForward } from "ionicons/icons";
 import { Steps } from "./new-tech-stack-modal";
 
 interface TechDescriptionProps {
-    description: string,
+    name: string,
     language: string,
-    setDescription: (value: string) => void,
+    setName: (value: string) => void,
     setLanguage: (value: string) => void,
     setStep: (step: Steps) => void,
 }
 
-const TechDescription = ({ description, language, setDescription, setLanguage, setStep }: TechDescriptionProps) => {
+const TechDescription = ({ name, language, setName, setLanguage, setStep }: TechDescriptionProps) => {
 
     const languages = ['English', 'Spanish', 'Portuguese', 'Italian', 'French'];
 
@@ -22,7 +21,10 @@ const TechDescription = ({ description, language, setDescription, setLanguage, s
             <div className="tech-description">
                 <IonList>
                     <IonItem>
-                        <IonSelect value={language} label="Technology" labelPlacement="fixed" placeholder="English"
+                        <IonInput label="Profile name" type="text" onIonChange={(e) => setName((e.target.value)?.toString() || '')}></IonInput>
+                    </IonItem>
+                    <IonItem>
+                        <IonSelect value={language} label="Language" labelPlacement="fixed" placeholder="English"
                             onIonChange={(e) => setLanguage(e.target.value)}
                         >
                             {

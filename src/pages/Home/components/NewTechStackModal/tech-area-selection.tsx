@@ -1,17 +1,18 @@
 import React from "react";
-import { TechArea } from "../../../../common/types/TechStack";
 import { IonButton, IonIcon } from "@ionic/react";
 import { chevronForward } from "ionicons/icons";
 import { Steps } from "./new-tech-stack-modal";
 
 interface TechAreaSelectionProps {
-    areas: TechArea[],
     selected: string;
     onClick: (value: string) => void,
     setStep: (step: Steps) => void,
 }
 
-const TechAreaSelection = ({areas, selected, onClick, setStep}: TechAreaSelectionProps) => {
+const TechAreaSelection = ({selected, onClick, setStep}: TechAreaSelectionProps) => {
+    
+    const areas = ["Full Stack", "DevOps", "Backend", "Frontend", "QA"]
+
     return (
         <>
             <h3>What area you want to interview?</h3>
@@ -21,9 +22,9 @@ const TechAreaSelection = ({areas, selected, onClick, setStep}: TechAreaSelectio
                         return (
                             <div
                                 key={`tech-area-${index}`}
-                                className={`tech-area-card ${selected === area.value && 'selected'}`}
-                                onClick={() => onClick(area.value)}
-                            >{area.label}</div>
+                                className={`tech-area-card ${selected === area && 'selected'}`}
+                                onClick={() => onClick(area)}
+                            >{area}</div>
                         )
                     })
                 }

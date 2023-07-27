@@ -1,28 +1,20 @@
 import React from "react";
-import { TechLanguage, TechProfile } from "../../../../common/types/TechStack";
+import { TechProfile } from "../../../../common/types/TechStack";
 import { IonButton, IonIcon, } from "@ionic/react";
 import { chevronBack, play } from "ionicons/icons";
 import { Steps } from "./new-tech-stack-modal";
 
 interface ProfileSummaryProps {
     profile: TechProfile,
-    technologies: TechLanguage[],
     onStart: () => void,
     setStep: (step: Steps) => void,
 }
 
-const ProfileSummary = ({ profile, technologies, setStep, onStart }: ProfileSummaryProps) => {
-
-    const getTechnologyLabel = (id: number): string => {
-        if (technologies) {
-            return technologies.find((tech) => tech.id === id)?.name || '';
-        }
-        return '';
-    }
+const ProfileSummary = ({ profile, setStep, onStart }: ProfileSummaryProps) => {
 
     return (
         <>
-            <h3>Profile</h3>
+            <h3>Profile {profile.name}</h3>
             <div className="profile-summary">
                 <h2>John Doe</h2>
                 {profile.description ||
@@ -34,9 +26,9 @@ const ProfileSummary = ({ profile, technologies, setStep, onStart }: ProfileSumm
                 <h5>Skills</h5>
                 <ul>
                     {
-                        profile.skillSet.map((skill) => {
+                        profile.requirements.map((requirement) => {
                             return (
-                                <li key={skill.technology_id}>{getTechnologyLabel(skill.technology_id)}</li>
+                                <li key={requirement.technology_name}>{requirement.technology_name} {requirement.seniority}</li>
                             )
                         })
                     }
