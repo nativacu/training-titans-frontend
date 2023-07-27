@@ -8,42 +8,47 @@ import { PageSubtitle } from '../../components/PageContainer/PageSubtitle/page-s
 import CardContainer from '../../components/CardContainer/card-container';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
-import { TechStack } from '../../common/types/TechStack';
+import { TechProfile, TechStack } from '../../common/types/TechStack';
 import NewTechStackModal from './components/NewTechStackModal/new-tech-stack-modal';
+import { GeneralService } from '../../services/general.service';
 
 const HomePage: React.FC = () => {
   const [t] = useTranslation('common');
 
-  const [techStacks, setTechStacks] = useState<TechStack[]>([]);
+  const [profiles, setProfiles] = useState<TechProfile[]>([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   
   useEffect(() => {
-    setTechStacks([
-      {
-        id: 1,
-        creationDate: '01 Jul. 2023',
-        name: 'React and NextJs',
-        trainingCount: 2
-      },
-      {
-        id: 2,
-        creationDate: '01 Jul. 2023',
-        name: 'Angular and NextJs',
-        trainingCount: 0
-      },
-      {
-        id: 3,
-        creationDate: '01 Jul. 2023',
-        name: 'Ionic React',
-        trainingCount: 0
-      },
-      {
-        id: 4,
-        creationDate: '01 Jul. 2023',
-        name: 'AWS and MySQL',
-        trainingCount: 0
-      }
-    ])
+    // setTechStacks([
+    //   {
+    //     id: 1,
+    //     creationDate: '01 Jul. 2023',
+    //     name: 'React and NextJs',
+    //     trainingCount: 2
+    //   },
+    //   {
+    //     id: 2,
+    //     creationDate: '01 Jul. 2023',
+    //     name: 'Angular and NextJs',
+    //     trainingCount: 0
+    //   },
+    //   {
+    //     id: 3,
+    //     creationDate: '01 Jul. 2023',
+    //     name: 'Ionic React',
+    //     trainingCount: 0
+    //   },
+    //   {
+    //     id: 4,
+    //     creationDate: '01 Jul. 2023',
+    //     name: 'AWS and MySQL',
+    //     trainingCount: 0
+    //   }
+    // ])
+    new GeneralService().getProfiles().then((result) => {
+      console.log(result.data.profiles)
+      setProfiles([...result.data.profiles])
+    })
   }, [])
 
   return (
@@ -62,11 +67,11 @@ const HomePage: React.FC = () => {
               <TechStackCard
                 onClick={() => setModalIsOpen(true)} />
               {
-                techStacks.map((stack) => {
+                profiles.map((profile) => {
                   return (
                     <TechStackCard
-                      key={`stack-${stack.id}`}
-                      techStack={stack}
+                      key={`profile-${profile.id}`}
+                      profile={profile}
                       onClick={(id) => console.log(id)} />
                   )
                 })

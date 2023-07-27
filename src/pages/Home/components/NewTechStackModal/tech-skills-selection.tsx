@@ -1,42 +1,60 @@
-import React from "react";
-import { Skill, SkillLevel, TechLanguage } from "../../../../common/types/TechStack";
+import React, { useEffect, useState } from "react";
+import { Requirement, Seniority, Technology } from "../../../../common/types/TechStack";
 import { IonButton, IonCol, IonIcon, IonItem, IonRow, IonSelect, IonSelectOption, IonToggle } from "@ionic/react";
 import { add, chevronBack, chevronForward } from "ionicons/icons";
 import { Steps } from "./new-tech-stack-modal";
+import { GeneralService } from "../../../../services/general.service";
 
 interface TechSkillSelectionProps {
     randomSeniority: boolean;
-    skillSet: Skill[],
-    technologies: TechLanguage[],
+    requirements: Requirement[],
     setRandomSeniority: (value: boolean) => void;
-    setSkills: (skillset: Skill[]) => void,
+    setRequirements: (requirements: Requirement[]) => void,
     setStep: (step: Steps) => void,
 }
 
-const TechSkillSelection = ({ randomSeniority, setRandomSeniority, skillSet, technologies, setSkills, setStep }: TechSkillSelectionProps) => {
+const TechSkillSelection = ({ randomSeniority, setRandomSeniority, requirements, setRequirements, setStep }: TechSkillSelectionProps) => {
 
-    const setTechnology = (skillIndex: number, value: number) => {
-        const newSkillSet = [...skillSet];
-        newSkillSet[skillIndex].technology_id = value;
-        setSkills(newSkillSet);
+    const [technologies, setTechnologies] = useState<Technology[]>([]);
+
+    const setTechnology = (skillIndex: number, value: string) => {
+        const newSkillSet = [...requirements];
+        newSkillSet[skillIndex].technology_name = value;
+        setRequirements(newSkillSet);
     }
 
-    const setTechnologyLevel = (skillIndex: number, value: SkillLevel) => {
-        const newSkillSet = [...skillSet];
-        newSkillSet[skillIndex].level = value;
-        setSkills(newSkillSet);
+    const setTechnologyLevel = (skillIndex: number, value: Seniority) => {
+        const newSkillSet = [...requirements];
+        newSkillSet[skillIndex].seniority = value;
+        setRequirements(newSkillSet);
     }
 
     const addLanguage = () => {
-        const newSkillSet = [...skillSet];
-        newSkillSet.push({ technology_id: 0, level: null });
-        setSkills(newSkillSet);
+        const newSkillSet = [...requirements];
+        newSkillSet.push({ technology_name: '', seniority: null });
+        setRequirements(newSkillSet);
     }
 
     const removeSkill = (index: number) => {
-        const newSkillSet = [...skillSet];
+        const newSkillSet = [...requirements];
         newSkillSet.splice(index, 1);
-        setSkills(newSkillSet);
+        setRequirements(newSkillSet);
+    }
+
+    useEffect(() => {
+        new GeneralService().getTechnologies().then((result) => {
+            setTechnologies(result.data.technologies);
+        })
+    }, [])
+
+    const handleRandomSeniority = (value: boolean) => {
+        setRandomSeniority(value);
+        if(value) {
+            setRequirements(requirements.map((requirement) => {
+                requirement.seniority = null;
+                return requirement;
+            }))
+        }
     }
 
     return (
@@ -44,22 +62,22 @@ const TechSkillSelection = ({ randomSeniority, setRandomSeniority, skillSet, tec
             <h3>Select languages to evaluate</h3>
             <div className="skill-list">
                 <IonRow className="ion-justify-content-end">
-                    <IonToggle checked={randomSeniority} onIonChange={(e) => setRandomSeniority(e.target.checked)} labelPlacement="end" mode="ios">Set random seniority</IonToggle>
+                    <IonToggle checked={randomSeniority} onIonChange={(e) => handleRandomSeniority(e.target.checked)} labelPlacement="end" mode="ios">Set random seniority</IonToggle>
                 </IonRow>
                 {
-                    skillSet.map((skill, index) => {
+                    requirements.map((requirement, index) => {
 
                         return (
                             <IonRow key={`skillset-${index}`}>
                                 <IonCol>
                                     <IonItem>
-                                        <IonSelect value={skill.technology_id} label="Technology" labelPlacement="fixed" placeholder="React"
+                                        <IonSelect value={requirement.technology_name} label="Technology" labelPlacement="fixed"
                                             onIonChange={(e) => setTechnology(index, e.target.value)}
                                         >
                                             {
                                                 technologies.map((technology) => {
                                                     return (
-                                                        <IonSelectOption key={`technologies-${technology.id}`} value={technology.id}>{technology.name}</IonSelectOption>
+                                                        <IonSelectOption key={`technologies-${technology.id}`} value={technology.name}>{technology.name}</IonSelectOption>
                                                     )
                                                 })
                                             }
@@ -70,7 +88,7 @@ const TechSkillSelection = ({ randomSeniority, setRandomSeniority, skillSet, tec
                                     !randomSeniority &&
                                     <IonCol>
                                         <IonItem>
-                                            <IonSelect value={skill.level} label="Seniority" labelPlacement="fixed" placeholder="Junior"
+                                            <IonSelect value={requirement.seniority} label="Seniority" labelPlacement="fixed"
                                                 onIonChange={(e) => setTechnologyLevel(index, e.target.value)}
                                             >
                                                 <IonSelectOption value="junior">Junior</IonSelectOption>
@@ -81,7 +99,7 @@ const TechSkillSelection = ({ randomSeniority, setRandomSeniority, skillSet, tec
                                     </IonCol>
                                 }
                                 {
-                                    skillSet.length > 1 &&
+                                    requirements.length > 1 &&
                                     <IonCol size="2">
                                         <IonButton size="small" fill="clear" color='danger'
                                             onClick={() => removeSkill(index)}

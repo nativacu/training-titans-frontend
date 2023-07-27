@@ -54,11 +54,6 @@
         margin: 1rem 0;
     }
     .tech-description {
-        display: flex;
-        align-items: center;
-        ion-list {
-            flex:  1 1;
-        }
         ion-textarea {
             min-height: 100px;
             margin-top: 1rem;

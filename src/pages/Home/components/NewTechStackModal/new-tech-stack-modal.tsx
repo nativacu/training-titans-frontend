@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import './new-tech-stack-modal.scss';
 import AppModal from "../../../../components/AppModal/app-modal";
-import { TechArea, TechLanguage, TechProfile, ValuesOf } from "../../../../common/types/TechStack";
+import { Technology, TechProfile, ValuesOf } from "../../../../common/types/TechStack";
 import TechAreaSelection from "./tech-area-selection";
 import TechSkillSelection from "./tech-skills-selection";
 import TechDescription from "./tech-description";
@@ -23,7 +23,7 @@ export enum Steps {
 
 export type Step = ValuesOf<Steps>;
 
-const cleanProfile = { area: '', skillSet: [{ technology_id: 0, level: null }], description: '', language: 'English' };
+const cleanProfile = { area: '', requirements: [{ technology_name: '', seniority: null }], description: '', language: 'English', name: '' };
 
 const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm, onDismiss }) => {
 
@@ -31,35 +31,6 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
     const [randomSeniority, setRandomSeniority] = useState(false);
     const [selection, setSelection] = useState<TechProfile>({ ...cleanProfile });
     const history = useHistory();
-
-    const technologies: TechLanguage[] = [
-        { id: 1, name: 'React' },
-        { id: 2, name: 'Angular' },
-        { id: 3, name: 'Ionic' },
-    ]
-
-    const areas: TechArea[] = [
-        {
-            label: "Full Stack",
-            value: "fullstack"
-        },
-        {
-            label: "DevOps",
-            value: "devops"
-        },
-        {
-            label: "Backend",
-            value: "backend"
-        },
-        {
-            label: "Frontend",
-            value: "frontend"
-        },
-        {
-            label: "QA",
-            value: "qa"
-        }
-    ]
 
     const selectArea = (value: string) => {
         setSelection({ ...selection, area: value });
@@ -86,7 +57,6 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
                 {
                     step === 'area' &&
                     <TechAreaSelection
-                        areas={areas}
                         selected={selection.area}
                         onClick={selectArea}
                         setStep={setStep}
@@ -96,10 +66,9 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
                     step === 'skills' &&
                     <TechSkillSelection
                         randomSeniority={randomSeniority}
-                        skillSet={selection.skillSet}
-                        technologies={technologies}
+                        requirements={selection.requirements}
                         setRandomSeniority={setRandomSeniority}
-                        setSkills={(skillSet) => setSelection({ ...selection, skillSet })}
+                        setRequirements={(requirements) => setSelection({ ...selection, requirements })}
                         setStep={setStep}
                     />
                 }
@@ -107,9 +76,9 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
                     step === 'description' &&
                     <TechDescription
                         setStep={setStep}
-                        description={selection.description}
+                        name={selection.name}
                         language={selection.language}
-                        setDescription={(description) => setSelection({ ...selection, description })}
+                        setName={(name) => setSelection({ ...selection, name })}
                         setLanguage={(language) => setSelection({ ...selection, language })}
                     />
                 }
@@ -117,7 +86,6 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
                     step === 'profile' &&
                     <ProfileSummary
                         profile={selection}
-                        technologies={technologies}
                         setStep={setStep}
                         onStart={onStart}
                     />

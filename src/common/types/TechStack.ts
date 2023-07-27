@@ -6,27 +6,29 @@ export interface TechStack {
 }
 
 export interface TechProfile {
+    id?: number;
+    name: string,
     area: string;
-    skillSet: Skill[];
+    requirements: Requirement[];
     description: string;
-    language: string;
+    language: Language;
 }
 
-export interface Skill {
-    technology_id: number;
-    level: SkillLevel;
-}
-
-export interface TechArea {
-    label: string;
-    value: string;
-}
-
-export interface TechLanguage {
+export interface Language {
     id: number;
     name: string;
 }
 
-export type SkillLevel = 'junior' | 'semisenior' | 'senior' | null;
+export interface Requirement {
+    technology_name: string;
+    seniority: Seniority;
+}
+export interface Technology {
+    id: number;
+    name: string;
+    description?: string;
+}
+
+export type Seniority = 'junior' | 'semisenior' | 'senior' | null;
 
 export type ValuesOf<T> = T[keyof T];
