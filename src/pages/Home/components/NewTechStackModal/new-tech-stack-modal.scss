@@ -9,10 +9,10 @@
     }
     .area-list {
         display: flex;
-        justify-content: space-around;
+        flex-direction: column;
         padding: 2rem 0;
         flex-wrap: wrap;
-        gap: 1.5rem 2.5rem;
+        gap: 1rem;
         max-height: 500px;
         overflow-y: auto;
     }

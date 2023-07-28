@@ -1,4 +1,8 @@
 .results-page {
+    ion-grid {
+        max-width: 1200px;
+        margin: auto;
+    }
     &__content {
         display: flex;
     }

@@ -1,9 +1,13 @@
 .app-title {
-   background-color: white;
-    
+    background: #081631;
     h1 {
-        font-weight: bold;
-        margin-bottom: 20px;
-        font-size: 40px;
+        margin: 0;
+        width: 100%;
+        margin: auto;
+        max-width: 1200px;
+        padding: 1rem 0;
+        text-align: left;
+        color: white;
+        font-size: 22px;
     }
 }
