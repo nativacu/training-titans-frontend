@@ -1,19 +1,26 @@
 import { useEffect, useState } from 'react';
-import consumer, { CHANNEL_ID } from '../helpers/cable';
+// import consumer, { CHANNEL_ID } from '../helpers/cable';
+import { Consumer, createConsumer } from '@rails/actioncable';
+import { SESSION_ID } from '../constants/session-id';
 
 interface WebSocketData {
   connected: boolean;
   data: any;
 }
 
-const useChatWebSocket = () => {
+const CHANNEL_ID = { channel: 'ChatChannel' };
+
+const useChatWebSocket = (conversationId: number) => {
+  const URL = `ws://localhost:3000/cable?token=${SESSION_ID}&conversation_id=${conversationId}`;
+  const [consumer, setConsumer] = useState<Consumer>(createConsumer(URL));
+
   const [webSocketData, setWebSocketData] = useState<WebSocketData>({
     connected: false,
     data: null,
   });
 
   useEffect(() => {
-    const subscription = consumer.subscriptions.create(
+    const subscription = consumer?.subscriptions.create(
       CHANNEL_ID,
       {
         connected: () => {
@@ -32,21 +39,27 @@ const useChatWebSocket = () => {
     );
 
     return () => {
-      subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, []);
 
-  const sendMessage = (message: string) => {
-    const action = { action: 'respond', data: message };
-
-    consumer.send({
-      identifier: JSON.stringify(CHANNEL_ID),
-      command: 'message',
-      data: JSON.stringify(action),
-    });
+  const sendChatMessage = (message: string) => {
+    makeMessage({ action: 'respond', data: message })
   };
 
-  return { webSocketData, sendMessage };
+  const endChat = () => {
+    makeMessage({action: 'terminate'});
+  }
+
+  const makeMessage = (data: {action: 'respond' | 'terminate', data?: string}) => {
+    consumer?.send({
+      identifier: JSON.stringify(CHANNEL_ID),
+      command: 'message',
+      data: JSON.stringify(data),
+    });
+  }
+
+  return { webSocketData, sendChatMessage, endChat };
 };
 
 export default useChatWebSocket;

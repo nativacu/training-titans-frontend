@@ -11,18 +11,21 @@ interface Message {
   type: "you" | "candidate";
   text: string;
 }
+interface ChatProps {
+  callId: number
+}
 
-const Chat = () => {
+const Chat: React.FC<ChatProps> = ({ callId }: ChatProps) => {
   const [transcript, setTranscript] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
-  const { webSocketData, sendMessage } = useChatWebSocket();
+  const { webSocketData, sendChatMessage } = useChatWebSocket(callId);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
     if (message.length) {
       setTranscript([...transcript, { type: "you", text: message }]);
-      sendMessage(message);
+      sendChatMessage(message);
       setMessage('');
       inputRef.current?.focus();
     }
@@ -48,12 +51,12 @@ const Chat = () => {
     <div className="chat-container">
 
       <div className="content-transcript">
-        <div className={`card `}>
+        {/* <div className={`card `}>
           <div className={`content`}>
             text
             <div className="arrow" />
           </div>
-        </div>
+        </div> */}
         {transcript.map((item, index) => (
           <div className={`card ${item.type === "you" && "you"}`} key={index}>
             <div className={`content`}>
