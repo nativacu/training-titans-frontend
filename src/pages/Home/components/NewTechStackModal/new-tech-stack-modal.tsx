@@ -23,7 +23,7 @@ export enum Steps {
 
 export type Step = ValuesOf<Steps>;
 
-const cleanProfile = { area: '', requirements: [{ technology_name: '', seniority: null }], description: '', language: 'English', name: '' };
+const cleanProfile = { area: 'Frontend', requirements: [{ technology_name: '', seniority: null }], description: '', language: {name: 'English', id: 1}, name: '' };
 
 const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm, onDismiss }) => {
 
@@ -77,7 +77,7 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
                     <TechDescription
                         setStep={setStep}
                         name={selection.name}
-                        language={selection.language}
+                        language={selection.language.name}
                         setName={(name) => setSelection({ ...selection, name })}
                         setLanguage={(language) => setSelection({ ...selection, language })}
                     />

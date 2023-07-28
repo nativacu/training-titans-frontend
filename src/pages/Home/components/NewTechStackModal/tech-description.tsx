@@ -2,12 +2,13 @@ import React from "react";
 import { IonButton, IonIcon, IonInput, IonItem, IonList, IonSelect, IonSelectOption, IonTextarea } from "@ionic/react";
 import { chevronBack, chevronForward } from "ionicons/icons";
 import { Steps } from "./new-tech-stack-modal";
+import { Language } from "../../../../common/types/TechStack";
 
 interface TechDescriptionProps {
     name: string,
     language: string,
     setName: (value: string) => void,
-    setLanguage: (value: string) => void,
+    setLanguage: (value: Language) => void,
     setStep: (step: Steps) => void,
 }
 
