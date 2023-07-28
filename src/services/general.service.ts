@@ -2,6 +2,12 @@ import axios, { AxiosRequestConfig } from "axios";
 import { GetProfilesResult } from "./use-cases/get-profiles";
 import { BaseGet } from "./use-cases/base-get";
 import { GetTechnologiesResult } from "./use-cases/get-technologies";
+import { SESSION_ID } from "../common/constants/session-id";
+import { PostProfileResult } from "./use-cases/post-profile";
+import { BasePost } from "./use-cases/base-post";
+import { TechProfile } from "../common/types/TechStack";
+import { Conversation } from "../common/types/Conversation";
+import { PostConversationResult } from "./use-cases/post-conversation";
 
 export class GeneralService {
     
@@ -9,15 +15,24 @@ export class GeneralService {
 
     config: AxiosRequestConfig = {
         headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MiwiZXhwIjoxNjk4MjUzMDcxfQ.IhHiUD9VNrBe8M3ryc35QcuwBikq2kNHvTlBjIahHCw',
+            'Authorization': `Bearer ${SESSION_ID}`,
             'Content-Type': 'application/json'
         }
     }
+
     getProfiles(): Promise<BaseGet<GetProfilesResult>> {
         return axios.get(`${this.baseUrl}/api/profiles.json`, this.config);
     }
-
+    
     getTechnologies(): Promise<BaseGet<GetTechnologiesResult>> {
         return axios.get(`${this.baseUrl}/api/technologies.json`, this.config);
+    }
+
+    saveProfile(profile: Omit<TechProfile, 'language'> & { language: string }): Promise<BasePost<PostProfileResult>> {
+        return axios.post(`${this.baseUrl}/api/profiles.json`, profile, this.config);
+    }
+
+    saveConversation(conversation: Conversation): Promise<BasePost<PostConversationResult>> {
+        return axios.post(`${this.baseUrl}/api/conversations.json`, conversation, this.config);
     }
 }
