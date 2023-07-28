@@ -48,7 +48,7 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
     const onStart = () => {
         const payload = makeConversation(profileId);
         new GeneralService().saveConversation(payload).then((result) => {
-            history.push({pathname: '/call', state: {callId: result.data.id}});
+            history.push({pathname: `/call/${result.data.id}`, state: {callId: result.data.id}});
             handleDismiss();
         })
     }

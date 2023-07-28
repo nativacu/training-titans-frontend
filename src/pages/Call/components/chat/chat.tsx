@@ -11,18 +11,21 @@ interface Message {
   type: "you" | "candidate";
   text: string;
 }
+interface ChatProps {
+  callId: number
+}
 
-const Chat = () => {
+const Chat: React.FC<ChatProps> = ({ callId }: ChatProps) => {
   const [transcript, setTranscript] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
-  const { webSocketData, sendMessage } = useChatWebSocket();
+  const { webSocketData, sendChatMessage } = useChatWebSocket(callId);
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
     if (message.length) {
       setTranscript([...transcript, { type: "you", text: message }]);
-      sendMessage(message);
+      sendChatMessage(message);
       setMessage('');
       inputRef.current?.focus();
     }
