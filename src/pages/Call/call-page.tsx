@@ -6,81 +6,59 @@ import {
 	IonRow,
 	IonButton,
 	IonIcon,
+	useIonRouter,
 } from "@ionic/react";
-import { AppTitle } from "../../components/AppTitle/app-title";
 import "./call-page.scss";
 import { PageSubtitle } from "../../components/PageContainer/PageSubtitle/page-subtitle";
 import CardContainer from "../../components/CardContainer/card-container";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
-import CandidateCall from "./components/candidate-call/candidate-call";
-import TranscriptCall from "./components/transcript-call/transcript-call";
+import CandidateCall from "./components/voice-call/voice-call";
+import TranscriptCall from "./components/chat/chat";
 
-import {
-	reloadOutline,
-	closeOutline,
-} from "ionicons/icons";
-import { useHistory, useLocation } from "react-router";
+import { RouteComponentProps, useLocation } from "react-router";
 import { LocationState } from "history";
+import { exit } from "ionicons/icons";
+import VoiceCall from "./components/voice-call/voice-call";
+import Chat from "./components/chat/chat";
 
-const CallPage: React.FC = () => {
+interface CallPageProps extends RouteComponentProps<{
+    callId: string;
+}> { callId: string; }
+
+
+const CallPage: React.FC<CallPageProps> = ({ match }) => {
 	const [t] = useTranslation("common");
-	const history = useHistory();
-	const location = useLocation<LocationState>();
-	const callId = location.state?.callId;
+	const callId = match.params.callId;
+	const router = useIonRouter();
 
-	const handleClose = () => {
-		history.push({
-			pathname: '/results',
-			state: {
-				positiveFeedback: "",
-				negativeFeedback: "",
-				transcript:""
-			}
-		});
-	};  
+	const handleClose = () => router.push('/results', 'forward');
 
-	useEffect(() => {}, []);
+	useEffect(() => { }, []);
 
 	return (
-		<IonPage>
-			<IonHeader className="no-shadow-header">
-				<AppTitle />
-			</IonHeader>
+		<IonPage className="call-page">
 			<IonContent fullscreen>
-				<div className="home-container">
-					<IonRow
-						style={{
-							justifyContent: "center",
-							alignItems: "Center",
-							marginTop: "2em",
-						}}
-					>
+				<div className="call-page-container">
+					<IonRow className="call-header ion-justify-content-center ion-align-items-start">
 						<IonCol>
 							<PageSubtitle translationKey="Training React and Next Js" />
 						</IonCol>
-						<IonCol style={{ textAlign: "right" }}>
-							<IonButton size="default" color="danger" fill="outline" onClick={handleClose}>
-								<IonIcon slot="start" icon={closeOutline} /> Finish
-							</IonButton>
-							<IonButton size="default" color="primary">
-								<IonIcon slot="start" icon={reloadOutline} /> Restart
+						<IonCol className="ion-text-right">
+							<IonButton size="default" color="danger" fill="clear" onClick={handleClose}>
+								<IonIcon slot="end" icon={exit} /> End training
 							</IonButton>
 						</IonCol>
 					</IonRow>
-					<h2 className="subtitle">Call</h2>
-					<CardContainer className="ion-flex tech-stack-list">
-						<IonRow
-							style={{
-								width: "100% !important",
-							}}
-						>
+
+					<CardContainer className="ion-flex call-container">
+						<IonRow>
 							<IonCol size="3">
-								<CandidateCall />
+								<VoiceCall />
 							</IonCol>
-							<IonCol size="9">
-								<TranscriptCall callId={callId} />
+							<IonCol size="9" className="chat">
+								<Chat callId={Number(callId)} />
 							</IonCol>
 						</IonRow>
 					</CardContainer>

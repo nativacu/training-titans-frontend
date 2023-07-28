@@ -6,7 +6,7 @@ export const AppTitle = () => {
         <IonTitle
             color="primary" 
             className="ion-text-center ion-text-primary ion-no-padding app-title">
-            <h1>Training Titans</h1>
+            <h1>SimuLearn</h1>
         </IonTitle>
     )
 }
