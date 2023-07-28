@@ -25,7 +25,7 @@ const HomePage: React.FC = () => {
     <PageContainer subtitle={'HOME_PAGE.SUBTITLE'} className='home-page'>
       <div className='home-container'>
         <CardContainer className='ion-flex tech-stack-list'>
-          <IonRow className='ion-justify-content-between gap-4'>
+          <IonRow className='gap-4'>
             <TechStackCard
               onClick={() => setModalIsOpen(true)} />
             {

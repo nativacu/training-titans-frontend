@@ -43,6 +43,12 @@ const Chat: React.FC<ChatProps> = ({ callId }: ChatProps) => {
     }
   }, [webSocketData]);
 
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     inputRef.current?.focus();
+  //   }, 1000)
+  // }, []);
+
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [transcript.length]);
@@ -51,12 +57,9 @@ const Chat: React.FC<ChatProps> = ({ callId }: ChatProps) => {
     <div className="chat-container">
 
       <div className="content-transcript">
-        {/* <div className={`card `}>
-          <div className={`content`}>
-            text
-            <div className="arrow" />
-          </div>
-        </div> */}
+        {
+          transcript.length === 0 && <small className="empty-chat">Your interview has started</small>
+        }
         {transcript.map((item, index) => (
           <div className={`card ${item.type === "you" && "you"}`} key={index}>
             <div className={`content`}>
@@ -68,23 +71,19 @@ const Chat: React.FC<ChatProps> = ({ callId }: ChatProps) => {
         <div ref={bottomRef} />
       </div>
 
-      <IonRow className="ion-justify-content-center ion-align-items-center msg-input-container">
-        <IonCol size="11">
-          <input
-            type="text"
-            className="input"
-            placeholder="Write something..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-        </IonCol>
-        <IonCol size="1">
-          <IonButton size="default" color="primary" style={{ width: "100%" }} className="send-button" onClick={handleClick}>
-            <IonIcon icon={send} />
-          </IonButton>
-        </IonCol>
-      </IonRow>
+      <div className="ion-justify-content-center ion-align-items-end msg-input-container">
+        <input
+          type="text"
+          className={`input ${transcript.length === 0 ? 'focus' : ''}`}
+          placeholder="Write something..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleKeyDown}
+        />
+        <IonButton size="default" color="primary" style={{ width: "100%" }} className="send-button" onClick={handleClick}>
+          <IonIcon icon={send} />
+        </IonButton>
+      </div>
     </div>
   );
 };
