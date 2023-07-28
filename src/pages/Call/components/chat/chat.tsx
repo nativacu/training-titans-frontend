@@ -51,12 +51,12 @@ const Chat: React.FC<ChatProps> = ({ callId }: ChatProps) => {
     <div className="chat-container">
 
       <div className="content-transcript">
-        <div className={`card `}>
+        {/* <div className={`card `}>
           <div className={`content`}>
             text
             <div className="arrow" />
           </div>
-        </div>
+        </div> */}
         {transcript.map((item, index) => (
           <div className={`card ${item.type === "you" && "you"}`} key={index}>
             <div className={`content`}>

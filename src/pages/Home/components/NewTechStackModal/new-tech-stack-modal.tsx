@@ -58,9 +58,11 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
     }
 
     const saveProfile = () => {
-        const payload = {...selection, language: selection.language.name, description: "test"}
+        const newProfile = {...selection, description: "I’m John Doe, I’m from the United States, and currently, I work as a junior front-end engineer with experience in React and CSS."};
+        const payload = {...newProfile, language: selection.language.name}
         new GeneralService().saveProfile(payload).then((result) => {
             setProfileId(result.data.id);
+            setSelection({...newProfile, id: result.data.id});
             setStep(Steps.Profile);
         })
     }
@@ -94,11 +96,11 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
                     step === 'description' &&
                     <TechDescription
                         name={selection.name}
-                        language={ selection.language.name}
                         onConfirmProfile={onConfirmProfile}
                         setName={(name) => setSelection({ ...selection, name })}
-                        setLanguage={(language) => setSelection({ ...selection, language })}
                         setStep={setStep}
+                        language={selection.language}
+                        setLanguage={(language) => { setSelection({ ...selection, language: language }) }}
                     />
                 }
                 {

@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IonButton, IonIcon, IonInput, IonItem, IonList, IonSelect, IonSelectOption, IonTextarea } from "@ionic/react";
 import { chevronBack, chevronForward } from "ionicons/icons";
 import { Steps } from "./new-tech-stack-modal";
 import { Language } from "../../../../common/types/TechStack";
+import { GeneralService } from "../../../../services/general.service";
 
 interface TechDescriptionProps {
     name: string,
-    language: string,
+    language: Language,
     setName: (value: string) => void,
     setLanguage: (value: Language) => void,
     setStep: (step: Steps) => void,
@@ -15,7 +16,13 @@ interface TechDescriptionProps {
 
 const TechDescription = ({ name, language, setName, setLanguage, setStep, onConfirmProfile }: TechDescriptionProps) => {
 
-    const languages = ['English', 'Spanish', 'Portuguese', 'Italian', 'French'];
+    const [languages, setLanguages] = useState<Language[]>([]);
+
+    useEffect(() => {
+        new GeneralService().getLanguages().then((result) => {
+            setLanguages(result.data.languages)
+        })
+    }, [])
 
     return (
         <>
@@ -23,7 +30,7 @@ const TechDescription = ({ name, language, setName, setLanguage, setStep, onConf
             <div className="tech-description">
                 <IonList>
                     <IonItem>
-                        <IonInput label="Profile name" type="text" onIonChange={(e) => setName((e.target.value)?.toString() || '')}></IonInput>
+                        <IonInput label="Profile name" type="text" value={name} onIonChange={(e) => setName((e.target.value)?.toString() || '')}></IonInput>
                     </IonItem>
                     <IonItem>
                         <IonSelect value={language} label="Language" labelPlacement="fixed" placeholder="English"
@@ -32,15 +39,12 @@ const TechDescription = ({ name, language, setName, setLanguage, setStep, onConf
                             {
                                 languages.map((language, index) => {
                                     return (
-                                        <IonSelectOption key={`language-${index}`} value={language}>{language}</IonSelectOption>
+                                        <IonSelectOption key={`language-${index}`} value={language}>{language.name}</IonSelectOption>
                                     )
                                 })
                             }
                         </IonSelect>
                     </IonItem>
-                    {/* <IonItem>
-                        <IonTextarea label="Profile description" labelPlacement="start" autoGrow={true} value={description} onIonChange={(e) => setDescription(e.target.value || '')} />
-                    </IonItem> */}
                 </IonList>
             </div>
             <div className="footer">

@@ -23,6 +23,7 @@
       background-color: #d3d0c9;
       clip-path: polygon(100% 0, 0% 100%, 100% 100%);
       left: 10px;
+      bottom: 0;
       background: white;
     }
     &.you {
@@ -36,9 +37,7 @@
       .arrow {
         background-color: #8a4fff;
         right: -14px;
-        bottom: 0;
         left: unset;
-        
         clip-path: polygon(0 0, 0% 100%, 100% 100%);
       }
     }
