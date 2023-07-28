@@ -25,7 +25,7 @@ export const TechStackCard = ({ profile, onClick }: TechStackCardProps) => {
                         </div>
                     </div> :
                     <div className="new-tech-stack-card" onClick={() => onClick(0)}>
-                        <h3>Create new</h3>
+                        <h3>Create profile</h3>
                         <img src="./assets/images/woman-working.png" alt="woman working on laptop"></img>
                     </div>
             }

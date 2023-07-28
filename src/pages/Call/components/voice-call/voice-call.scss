@@ -2,7 +2,7 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   .subtitle {
     font-weight: 600;
   }
@@ -59,19 +59,5 @@
   .card-container {
     padding: 1rem 2rem;
   }
-  .chat {
-    position: relative;
-    padding-left: 2rem;
-    &::before {
-      content: "";
-      height: 80%;
-      margin: 5% 0;
-      width: 1px;
-      background-color: lightgray;
-      position: absolute;
-    }
-    h2.subtitle {
-      font-size: 24px;
-    }
-  }
+
 }
