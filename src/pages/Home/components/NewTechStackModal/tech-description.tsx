@@ -9,9 +9,10 @@ interface TechDescriptionProps {
     setName: (value: string) => void,
     setLanguage: (value: string) => void,
     setStep: (step: Steps) => void,
+    onConfirmProfile: () => void
 }
 
-const TechDescription = ({ name, language, setName, setLanguage, setStep }: TechDescriptionProps) => {
+const TechDescription = ({ name, language, setName, setLanguage, setStep, onConfirmProfile }: TechDescriptionProps) => {
 
     const languages = ['English', 'Spanish', 'Portuguese', 'Italian', 'French'];
 
@@ -52,7 +53,7 @@ const TechDescription = ({ name, language, setName, setLanguage, setStep }: Tech
                 <IonButton
                     size="small"
                     color='primary'
-                    onClick={() => setStep(Steps.Profile)}
+                    onClick={onConfirmProfile}
                 >
                     <IonIcon slot="start" icon={chevronForward} /> View Profile Details
                 </IonButton>
