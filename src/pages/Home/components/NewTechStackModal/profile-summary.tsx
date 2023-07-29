@@ -11,7 +11,6 @@ interface ProfileSummaryProps {
 }
 
 const ProfileSummary = ({ profile, setStep, onStart }: ProfileSummaryProps) => {
-
     return (
         <>
             <h3>Profile {profile.name}</h3>
@@ -28,7 +27,7 @@ const ProfileSummary = ({ profile, setStep, onStart }: ProfileSummaryProps) => {
                     {
                         profile.requirements.map((requirement) => {
                             return (
-                                <li key={requirement.technology_name}>{requirement.technology_name} {requirement.seniority}</li>
+                                <li key={requirement.technology_id}>{requirement?.name} {requirement.seniority}</li>
                             )
                         })
                     }
@@ -43,6 +42,7 @@ const ProfileSummary = ({ profile, setStep, onStart }: ProfileSummaryProps) => {
                     <IonIcon slot="start" icon={chevronBack} /> Back
                 </IonButton>
                 <IonButton
+                    className="ml-auto"
                     size="small"
                     color='secondary'
                     onClick={onStart}

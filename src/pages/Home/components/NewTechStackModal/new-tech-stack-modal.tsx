@@ -6,9 +6,10 @@ import TechAreaSelection from "./tech-area-selection";
 import TechSkillSelection from "./tech-skills-selection";
 import TechDescription from "./tech-description";
 import ProfileSummary from "./profile-summary";
-import { useHistory } from "react-router";
 import { GeneralService } from "../../../../services/general.service";
 import { makeConversation } from "../../../../common/types/Conversation";
+import { use } from "i18next";
+import { useIonRouter } from "@ionic/react";
 
 interface NewTechStackModalProps {
     isOpen: boolean,
@@ -25,7 +26,7 @@ export enum Steps {
 
 export type Step = ValuesOf<Steps>;
 
-const cleanProfile = { area: 'Frontend', requirements: [{ technology_name: '', seniority: null }], description: '', language: {name: 'English', id: 1}, name: '' };
+const cleanProfile = { area: 'Frontend', requirements: [{ technology_id: '', technology_name: '', seniority: null }], description: '', language: {name: 'English', id: 1}, name: '' };
 
 const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm, onDismiss }) => {
 
@@ -33,7 +34,7 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
     const [randomSeniority, setRandomSeniority] = useState(false);
     const [selection, setSelection] = useState<TechProfile>({ ...cleanProfile });
     const [profileId, setProfileId] = useState<number>(0);
-    const history = useHistory();
+    const router = useIonRouter();
 
     const selectArea = (value: string) => {
         setSelection({ ...selection, area: value });
@@ -48,7 +49,7 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
     const onStart = () => {
         const payload = makeConversation(profileId);
         new GeneralService().saveConversation(payload).then((result) => {
-            history.push({pathname: `/call/${result.data.id}`, state: {callId: result.data.id}});
+            router.push(`/call/${result.data.id}`, 'forward');
             handleDismiss();
         })
     }
@@ -59,7 +60,7 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
 
     const saveProfile = () => {
         const newProfile = {...selection, description: "I’m John Doe, I’m from the United States, and currently, I work as a junior front-end engineer with experience in React and CSS."};
-        const payload = {...newProfile, language: selection.language.name}
+        const { id, ...payload} = {...newProfile, language: selection.language.name}
         new GeneralService().saveProfile(payload).then((result) => {
             setProfileId(result.data.id);
             setSelection({...newProfile, id: result.data.id});
@@ -100,7 +101,7 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
                         setName={(name) => setSelection({ ...selection, name })}
                         setStep={setStep}
                         language={selection.language}
-                        setLanguage={(language) => { setSelection({ ...selection, language: language }) }}
+                        setLanguage={(language) => { setSelection({ ...selection, language }) }}
                     />
                 }
                 {
