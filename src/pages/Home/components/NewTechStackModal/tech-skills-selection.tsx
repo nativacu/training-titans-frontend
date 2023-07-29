@@ -14,12 +14,11 @@ interface TechSkillSelectionProps {
 }
 
 const TechSkillSelection = ({ randomSeniority, setRandomSeniority, requirements, setRequirements, setStep }: TechSkillSelectionProps) => {
-
     const [technologies, setTechnologies] = useState<Technology[]>([]);
 
-    const setTechnology = (skillIndex: number, value: string) => {
+    const setTechnology = (skillIndex: number, value: Requirement) => {
         const newSkillSet = [...requirements];
-        newSkillSet[skillIndex].technology_name = value;
+        newSkillSet[skillIndex] = value;
         setRequirements(newSkillSet);
     }
 
@@ -31,7 +30,7 @@ const TechSkillSelection = ({ randomSeniority, setRandomSeniority, requirements,
 
     const addLanguage = () => {
         const newSkillSet = [...requirements];
-        newSkillSet.push({ technology_name: '', seniority: null });
+        newSkillSet.push({ technology_id: '', technology_name: '', seniority: null });
         setRequirements(newSkillSet);
     }
 
@@ -66,18 +65,17 @@ const TechSkillSelection = ({ randomSeniority, setRandomSeniority, requirements,
                 </IonRow>
                 {
                     requirements.map((requirement, index) => {
-
                         return (
                             <IonRow key={`skillset-${index}`}>
                                 <IonCol>
                                     <IonItem>
-                                        <IonSelect value={requirement.technology_name} label="Technology" labelPlacement="fixed"
+                                        <IonSelect value={requirement} label="Technology" labelPlacement="fixed"
                                             onIonChange={(e) => setTechnology(index, e.target.value)}
                                         >
                                             {
                                                 technologies.map((technology) => {
                                                     return (
-                                                        <IonSelectOption key={`technologies-${technology.id}`} value={technology.name}>{technology.name}</IonSelectOption>
+                                                        <IonSelectOption key={`technologies-${technology.id}`} value={technology}>{technology.name}</IonSelectOption>
                                                     )
                                                 })
                                             }

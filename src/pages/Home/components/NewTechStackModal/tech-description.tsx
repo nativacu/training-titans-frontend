@@ -15,7 +15,7 @@ interface TechDescriptionProps {
 }
 
 const TechDescription = ({ name, language, setName, setLanguage, setStep, onConfirmProfile }: TechDescriptionProps) => {
-
+    
     const [languages, setLanguages] = useState<Language[]>([]);
 
     useEffect(() => {

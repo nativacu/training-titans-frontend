@@ -20,7 +20,11 @@ export interface Language {
 }
 
 export interface Requirement {
+    id?: string;
+    technology_id: string;
     technology_name: string;
+    name?: string;
+    description?: string;
     seniority: Seniority;
 }
 export interface Technology {

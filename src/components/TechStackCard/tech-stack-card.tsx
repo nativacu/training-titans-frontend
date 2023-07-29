@@ -17,7 +17,7 @@ export const TechStackCard = ({ profile, onClick }: TechStackCardProps) => {
                         <p className="ion-text-left">{profile.language.name}</p>
                         <h3>{profile.name}</h3>
                         <div className="ion-text-right requirements">
-                            {profile.requirements.slice(0, 3).map((requirement, index) => {
+                            {profile.requirements.slice(0, 4).map((requirement, index) => {
                                 return (
                                     <span key={`prof-requirement-${index}`}>{requirement.technology_name}</span>
                                 )
