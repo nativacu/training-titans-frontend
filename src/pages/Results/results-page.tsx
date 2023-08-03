@@ -1,4 +1,3 @@
-import React from 'react';
 import './results-page.scss';
 import { PageContainer } from "../../components/PageContainer/page-container";
 import { RecommendationCard } from './RecommendationCard/recommendation-card';
@@ -8,10 +7,12 @@ import { Feedback } from '../../common/types/InterviewResults';
 import useChatWebSocket from '../../common/hooks/useChatWebSocket';
 import { match } from 'react-router-dom';
 import useInterviewResults from '../../common/hooks/useInterviewResults';
+import { useInterviewContext } from '../../common/hooks/useInterviewContext';
 
 export const ResultsPage: React.FC<any> = ({ match }) => {
 	const callId = Number(match.params.callId || 0);
-    const { interviewResults } = useInterviewResults();
+    const { interviewResults } = useInterviewContext();
+    console.log(interviewResults)
 
     // Temporary data
     const transcript = 'hello world'.repeat(100);

@@ -24,6 +24,7 @@ import VoiceCall from "./components/voice-call/voice-call";
 import Chat from "./components/chat/chat";
 import useChatWebSocket from "../../common/hooks/useChatWebSocket";
 import useConsumer from "../../common/hooks/useConsumer";
+import { useInterviewContext } from "../../common/hooks/useInterviewContext";
 
 interface CallPageProps
   extends RouteComponentProps<{
@@ -34,7 +35,7 @@ interface CallPageProps
 
 const CallPage: React.FC<CallPageProps> = ({ match }) => {
 	const [t] = useTranslation("common");
-	const {setChatId, chatId} = useConsumer();	
+	const {setChatId, chatId} = useInterviewContext();	
 	const router = useIonRouter();
 	const { feedback, endChat } = useChatWebSocket(0);
 
@@ -43,12 +44,13 @@ const CallPage: React.FC<CallPageProps> = ({ match }) => {
 	};
 
 	useEffect(() => {
+		console.log('setting chat id', match.params.callId)
 		setChatId(Number(match.params.callId));
 	}, [])
 
 	useEffect(() => {
 		if (feedback) {
-			router.push(`/results${chatId}`, 'forward')
+			router.push(`/results/${chatId}`, 'forward')
 		}
 	}, [feedback]);
 

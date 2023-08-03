@@ -11,6 +11,7 @@ import { makeConversation } from "../../../../common/types/Conversation";
 import { use } from "i18next";
 import { useIonRouter } from "@ionic/react";
 import useConsumer from "../../../../common/hooks/useConsumer";
+import { useInterviewContext } from "../../../../common/hooks/useInterviewContext";
 
 interface NewTechStackModalProps {
     isOpen: boolean,
@@ -30,7 +31,7 @@ export type Step = ValuesOf<Steps>;
 const cleanProfile = { area: 'Frontend', requirements: [{ technology_id: '', technology_name: '', seniority: null }], description: '', language: {name: 'English', id: 1}, name: '' };
 
 const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm, onDismiss }) => {
-    const {setChatId} = useConsumer();
+    const {setChatId} = useInterviewContext();
     const [step, setStep] = useState<Step>(Steps.Area);
     const [randomSeniority, setRandomSeniority] = useState(false);
     const [selection, setSelection] = useState<TechProfile>({ ...cleanProfile });

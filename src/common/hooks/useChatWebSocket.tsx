@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Feedback, InterviewResults } from '../types/InterviewResults';
 import useConsumer from './useConsumer';
+import useInterviewResults from './useInterviewResults';
+import { useInterviewContext } from './useInterviewContext';
 
 interface WebSocketData {
   connected: boolean;
@@ -10,8 +12,7 @@ interface WebSocketData {
 const CHANNEL_ID = { channel: 'ChatChannel' };
 
 const useChatWebSocket = (conversationId: number) => {
-  const { consumer, chatId } = useConsumer();
-  const [interviewResults, setInterviewResults] = useState<InterviewResults>();
+  const { consumer, chatId, setInterviewResults } = useInterviewContext();
 
   const [webSocketData, setWebSocketData] = useState<WebSocketData>({
     connected: false,

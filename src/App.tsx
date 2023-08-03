@@ -25,22 +25,25 @@ import "./theme/global.scss";
 import "./theme/variables.scss";
 import { ResultsPage } from "./pages/Results/results-page";
 import Login from "./pages/Login";
+import { ContextProvider } from "./common/hooks/useInterviewContext";
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/call/:callId" component={Call} />
-        <Route exact path="/">
-          <Redirect to="/login" />
-        </Route>
-        <Route exact path="/results/:callId" component={ResultsPage}></Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
+    <ContextProvider>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/call/:callId" component={Call} />
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <Route exact path="/results/:callId" component={ResultsPage}></Route>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </ContextProvider>
   </IonApp>
 );
 
