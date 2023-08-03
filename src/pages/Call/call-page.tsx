@@ -22,6 +22,8 @@ import { LocationState } from "history";
 import { exit } from "ionicons/icons";
 import VoiceCall from "./components/voice-call/voice-call";
 import Chat from "./components/chat/chat";
+import useChatWebSocket from "../../common/hooks/useChatWebSocket";
+import useConsumer from "../../common/hooks/useConsumer";
 
 interface CallPageProps
   extends RouteComponentProps<{
@@ -31,13 +33,24 @@ interface CallPageProps
 }
 
 const CallPage: React.FC<CallPageProps> = ({ match }) => {
-  const [t] = useTranslation("common");
-  const callId = match.params.callId;
-  const router = useIonRouter();
+	const [t] = useTranslation("common");
+	const {setChatId, chatId} = useConsumer();	
+	const router = useIonRouter();
+	const { feedback, endChat } = useChatWebSocket(0);
 
-  const handleClose = () => router.push("/results", "forward");
+	const handleClose = () => {
+		endChat();
+	};
 
-  useEffect(() => {}, []);
+	useEffect(() => {
+		setChatId(Number(match.params.callId));
+	}, [])
+
+	useEffect(() => {
+		if (feedback) {
+			router.push(`/results${chatId}`, 'forward')
+		}
+	}, [feedback]);
 
   return (
     <IonPage className="call-page">
@@ -65,7 +78,7 @@ const CallPage: React.FC<CallPageProps> = ({ match }) => {
                 <VoiceCall />
               </IonCol>
               <IonCol size="9" className="chat">
-                <Chat callId={Number(callId)} />
+                <Chat callId={Number(chatId)} />
               </IonCol>
             </IonRow>
           </CardContainer>

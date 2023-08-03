@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-// import consumer, { CHANNEL_ID } from '../helpers/cable';
-import { Consumer, createConsumer } from '@rails/actioncable';
-import { SESSION_ID } from '../constants/session-id';
+import { Feedback, InterviewResults } from '../types/InterviewResults';
+import useConsumer from './useConsumer';
 
 interface WebSocketData {
   connected: boolean;
@@ -11,15 +10,24 @@ interface WebSocketData {
 const CHANNEL_ID = { channel: 'ChatChannel' };
 
 const useChatWebSocket = (conversationId: number) => {
-  const URL = `ws://localhost:3000/cable?token=${SESSION_ID}&conversation_id=${conversationId}`;
-  const [consumer, setConsumer] = useState<Consumer>(createConsumer(URL));
+  const { consumer, chatId } = useConsumer();
+  const [interviewResults, setInterviewResults] = useState<InterviewResults>();
 
   const [webSocketData, setWebSocketData] = useState<WebSocketData>({
     connected: false,
     data: null,
   });
 
+  const [feedback, setFeedback] = useState<Feedback>();
+
   useEffect(() => {
+    if (feedback){
+      setInterviewResults({transcript: [], feedback});
+    }
+  }, [feedback]);
+
+  useEffect(() => {
+    console.log('creating subscription', consumer)
     const subscription = consumer?.subscriptions.create(
       CHANNEL_ID,
       {
@@ -32,8 +40,16 @@ const useChatWebSocket = (conversationId: number) => {
           setWebSocketData({ connected: false, data: null });
         },
         received: (data) => {
-          console.log(data);
-          setWebSocketData({ connected: true, data });
+          const response = data.message || data.answer;
+          const feedback = data.feedback;
+          if (response) {
+            setWebSocketData({ connected: true, data: response });
+          } else if (feedback) {
+            setFeedback(feedback);
+          } else {
+            console.error(data.error)
+            console.error(data)
+          }
         },
       }
     );
@@ -41,17 +57,17 @@ const useChatWebSocket = (conversationId: number) => {
     return () => {
       subscription?.unsubscribe();
     };
-  }, []);
+  }, [consumer, chatId]);
 
   const sendChatMessage = (message: string) => {
-    makeMessage({ action: 'respond', data: message })
+    makeMessage({ action: 'respond', message })
   };
 
   const endChat = () => {
     makeMessage({action: 'terminate'});
   }
 
-  const makeMessage = (data: {action: 'respond' | 'terminate', data?: string}) => {
+  const makeMessage = (data: {action: 'respond' | 'terminate', message?: string}) => {
     consumer?.send({
       identifier: JSON.stringify(CHANNEL_ID),
       command: 'message',
@@ -59,7 +75,7 @@ const useChatWebSocket = (conversationId: number) => {
     });
   }
 
-  return { webSocketData, sendChatMessage, endChat };
+  return { webSocketData, sendChatMessage, endChat, feedback };
 };
 
 export default useChatWebSocket;

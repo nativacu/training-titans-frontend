@@ -38,13 +38,7 @@ const App: React.FC = () => (
         <Route exact path="/">
           <Redirect to="/login" />
         </Route>
-        <Route exact path="/results" >
-          <ResultsPage
-            positiveFeedback={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus eget justo a facilisis. Nullam semper id neque ut malesuada. Aenean elementum lectus eget laoreet tincidunt. Nunc aliquam elit id consequat dignissim. Mauris vitae tellus ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum enim sed diam suscipit sodales. Mauris nec ex eget diam sagittis tempor condimentum eu nisl. Cras sagittis pharetra varius. Proin lorem arcu, blandit ac pharetra sed, viverra ut mauris. Ut ut sapien nec erat tincidunt eleifend semper vitae diam. Mauris lacinia tempus ex, a pulvinar justo cursus id. Morbi vitae velit ac nisi imperdiet finibus."}
-            negativeFeedback={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus eget justo a facilisis. Nullam semper id neque ut malesuada. Aenean elementum lectus eget laoreet tincidunt. Nunc aliquam elit id consequat dignissim. Mauris vitae tellus ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum enim sed diam suscipit sodales. Mauris nec ex eget diam sagittis tempor condimentum eu nisl. Cras sagittis pharetra varius. Proin lorem arcu, blandit ac pharetra sed, viverra ut mauris. Ut ut sapien nec erat tincidunt eleifend semper vitae diam. Mauris lacinia tempus ex, a pulvinar justo cursus id. Morbi vitae velit ac nisi imperdiet finibus."}
-            transcript={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus eget justo a facilisis. Nullam semper id neque ut malesuada. Aenean elementum lectus eget laoreet tincidunt. Nunc aliquam elit id consequat dignissim. Mauris vitae tellus ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum enim sed diam suscipit sodales. Mauris nec ex eget diam sagittis tempor condimentum eu nisl. Cras sagittis pharetra varius. Proin lorem arcu, blandit ac pharetra sed, viverra ut mauris. Ut ut sapien nec erat tincidunt eleifend semper vitae diam. Mauris lacinia tempus ex, a pulvinar justo cursus id. Morbi vitae velit ac nisi imperdiet finibus."}
-          />
-        </Route>
+        <Route exact path="/results/:callId" component={ResultsPage}></Route>
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
