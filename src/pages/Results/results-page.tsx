@@ -18,22 +18,16 @@ export const ResultsPage: React.FC<any> = ({ match }) => {
                 <IonRow>
                     <IonCol size='6'>
                         <IonRow>
-                            {interviewResults?.feedback && interviewResults.feedback.positive.map((item, index) => (
-                                <RecommendationCard
-                                    key={index}
-                                    isPositive={true}
-                                    content={item}
-                                />
-                            ))}
+                            <RecommendationCard
+                                isPositive={true}
+                                content={ interviewResults?.feedback && interviewResults.feedback.positive}
+                            />
                         </IonRow>
                         <IonRow>
-                            { interviewResults?.feedback && interviewResults.feedback.negative.map((item, index) => (
-                                <RecommendationCard
-                                    key={index}
-                                    isPositive={false}
-                                    content={item}
-                                />
-                            ))}
+                            <RecommendationCard
+                                isPositive={false}
+                                content={interviewResults?.feedback && interviewResults.feedback.negative}
+                            />
                         </IonRow>
                     </IonCol>
                     <IonCol size='6' className='results-page__column'>
