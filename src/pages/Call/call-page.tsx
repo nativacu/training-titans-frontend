@@ -37,22 +37,17 @@ const CallPage: React.FC<CallPageProps> = ({ match }) => {
 	const [t] = useTranslation("common");
 	const {setChatId, chatId} = useInterviewContext();	
 	const router = useIonRouter();
-	const { feedback, endChat } = useChatWebSocket(0);
+	const { endChat } = useChatWebSocket(0);
 
 	const handleClose = () => {
 		endChat();
+		router.push(`/results/${chatId}`, 'forward')
 	};
 
 	useEffect(() => {
 		console.log('setting chat id', match.params.callId)
 		setChatId(Number(match.params.callId));
 	}, [])
-
-	useEffect(() => {
-		if (feedback) {
-			router.push(`/results/${chatId}`, 'forward')
-		}
-	}, [feedback]);
 
   return (
     <IonPage className="call-page">

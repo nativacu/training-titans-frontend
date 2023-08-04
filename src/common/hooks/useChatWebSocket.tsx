@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Feedback, InterviewResults } from '../types/InterviewResults';
-import useConsumer from './useConsumer';
-import useInterviewResults from './useInterviewResults';
+import { makeInterviewResults } from '../types/InterviewResults';
 import { useInterviewContext } from './useInterviewContext';
 
 interface WebSocketData {
@@ -19,16 +17,7 @@ const useChatWebSocket = (conversationId: number) => {
     data: null,
   });
 
-  const [feedback, setFeedback] = useState<Feedback>();
-
   useEffect(() => {
-    if (feedback){
-      setInterviewResults({transcript: [], feedback});
-    }
-  }, [feedback]);
-
-  useEffect(() => {
-    console.log('creating subscription', consumer)
     const subscription = consumer?.subscriptions.create(
       CHANNEL_ID,
       {
@@ -43,10 +32,11 @@ const useChatWebSocket = (conversationId: number) => {
         received: (data) => {
           const response = data.message || data.answer;
           const feedback = data.feedback;
+          const transcript = data.transcript;
           if (response) {
             setWebSocketData({ connected: true, data: response });
           } else if (feedback) {
-            setFeedback(feedback);
+            setInterviewResults(makeInterviewResults({transcript, feedback}));
           } else {
             console.error(data.error)
             console.error(data)
@@ -76,7 +66,7 @@ const useChatWebSocket = (conversationId: number) => {
     });
   }
 
-  return { webSocketData, sendChatMessage, endChat, feedback };
+  return { webSocketData, sendChatMessage, endChat };
 };
 
 export default useChatWebSocket;

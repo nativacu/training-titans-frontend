@@ -38,7 +38,6 @@ export const ContextProvider = ({ children }: ContextProps) => {
     useEffect(() => {
         if (!chatId) return;
         setConsumer(createConsumer(`${URL}${chatId}`))
-        console.log('chatId', chatId);
     }, [chatId]);
 
     return (

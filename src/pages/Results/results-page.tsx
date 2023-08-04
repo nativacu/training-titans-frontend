@@ -11,7 +11,7 @@ export const ResultsPage: React.FC<any> = ({ match }) => {
     const { interviewResults } = useInterviewContext();
 
     // Temporary data
-    const transcript = 'hello world'.repeat(100);
+    // const transcript = 'hello world'.repeat(100);
     return (
         <PageContainer subtitle='RESULTS_PAGE.SUBTITLE' className='results-page'>
             <IonGrid>
@@ -31,7 +31,7 @@ export const ResultsPage: React.FC<any> = ({ match }) => {
                         </IonRow>
                     </IonCol>
                     <IonCol size='6' className='results-page__column'>
-                        <SummaryCard transcript={transcript} />
+                        <SummaryCard transcript={interviewResults.transcript} />
                     </IonCol>
                 </IonRow>
             </IonGrid>

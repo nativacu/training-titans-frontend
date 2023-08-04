@@ -3,9 +3,14 @@ export interface Feedback {
     negative: Array<string>;
 }
 
+export interface TranscriptEntry {
+    interviewer: string;
+    candidate: string;
+}
+
 export interface InterviewResults {
     feedback: Feedback;
-    transcript: string[];
+    transcript: TranscriptEntry[];
 }
 
 export function makeInterviewResults(interviewResults: Partial<InterviewResults>): InterviewResults {
