@@ -9,7 +9,7 @@ interface WebSocketData {
 
 const CHANNEL_ID = { channel: 'ChatChannel' };
 
-const useChatWebSocket = (conversationId: number) => {
+const useChatWebSocket = () => {
   const { consumer, chatId, setInterviewResults } = useInterviewContext();
 
   const [webSocketData, setWebSocketData] = useState<WebSocketData>({

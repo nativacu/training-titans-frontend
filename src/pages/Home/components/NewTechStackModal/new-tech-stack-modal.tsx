@@ -8,9 +8,7 @@ import TechDescription from "./tech-description";
 import ProfileSummary from "./profile-summary";
 import { GeneralService } from "../../../../services/general.service";
 import { makeConversation } from "../../../../common/types/Conversation";
-import { use } from "i18next";
 import { useIonRouter } from "@ionic/react";
-import useConsumer from "../../../../common/hooks/useConsumer";
 import { useInterviewContext } from "../../../../common/hooks/useInterviewContext";
 
 interface NewTechStackModalProps {
@@ -51,7 +49,6 @@ const NewTechStackModal: React.FC<NewTechStackModalProps> = ({ isOpen, onConfirm
     const onStart = () => {
         const payload = makeConversation(profileId);
         new GeneralService().saveConversation(payload).then((result) => { 
-            console.log(result.data.id);
             setChatId(result.data.id);
             router.push(`/call/${result.data.id}`, 'forward');
             handleDismiss();
