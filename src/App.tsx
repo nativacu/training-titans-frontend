@@ -25,28 +25,25 @@ import "./theme/global.scss";
 import "./theme/variables.scss";
 import { ResultsPage } from "./pages/Results/results-page";
 import Login from "./pages/Login";
+import { ContextProvider } from "./common/hooks/useInterviewContext";
 
 setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet>
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/call/:callId" component={Call} />
-        <Route exact path="/">
-          <Redirect to="/login" />
-        </Route>
-        <Route exact path="/results" >
-          <ResultsPage
-            positiveFeedback={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus eget justo a facilisis. Nullam semper id neque ut malesuada. Aenean elementum lectus eget laoreet tincidunt. Nunc aliquam elit id consequat dignissim. Mauris vitae tellus ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum enim sed diam suscipit sodales. Mauris nec ex eget diam sagittis tempor condimentum eu nisl. Cras sagittis pharetra varius. Proin lorem arcu, blandit ac pharetra sed, viverra ut mauris. Ut ut sapien nec erat tincidunt eleifend semper vitae diam. Mauris lacinia tempus ex, a pulvinar justo cursus id. Morbi vitae velit ac nisi imperdiet finibus."}
-            negativeFeedback={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus eget justo a facilisis. Nullam semper id neque ut malesuada. Aenean elementum lectus eget laoreet tincidunt. Nunc aliquam elit id consequat dignissim. Mauris vitae tellus ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum enim sed diam suscipit sodales. Mauris nec ex eget diam sagittis tempor condimentum eu nisl. Cras sagittis pharetra varius. Proin lorem arcu, blandit ac pharetra sed, viverra ut mauris. Ut ut sapien nec erat tincidunt eleifend semper vitae diam. Mauris lacinia tempus ex, a pulvinar justo cursus id. Morbi vitae velit ac nisi imperdiet finibus."}
-            transcript={"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus eget justo a facilisis. Nullam semper id neque ut malesuada. Aenean elementum lectus eget laoreet tincidunt. Nunc aliquam elit id consequat dignissim. Mauris vitae tellus ex. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum enim sed diam suscipit sodales. Mauris nec ex eget diam sagittis tempor condimentum eu nisl. Cras sagittis pharetra varius. Proin lorem arcu, blandit ac pharetra sed, viverra ut mauris. Ut ut sapien nec erat tincidunt eleifend semper vitae diam. Mauris lacinia tempus ex, a pulvinar justo cursus id. Morbi vitae velit ac nisi imperdiet finibus."}
-          />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
+    <ContextProvider>
+      <IonReactRouter>
+        <IonRouterOutlet>
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/call/:callId" component={Call} />
+          <Route exact path="/">
+            <Redirect to="/login" />
+          </Route>
+          <Route exact path="/results/:callId" component={ResultsPage}></Route>
+        </IonRouterOutlet>
+      </IonReactRouter>
+    </ContextProvider>
   </IonApp>
 );
 

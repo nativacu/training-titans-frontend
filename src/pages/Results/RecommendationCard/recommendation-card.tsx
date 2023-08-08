@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 
 interface RecommendationCardProps {
     isPositive: boolean,
-    content: string
+    content: string[]
 }
 
 export const RecommendationCard: React.FC<RecommendationCardProps> = ({isPositive, content}: RecommendationCardProps) => {
@@ -18,19 +18,25 @@ export const RecommendationCard: React.FC<RecommendationCardProps> = ({isPositiv
                     {
                         isPositive ?
                         <>
-                            <IonIcon size="large" color="danger" icon={closeSharp}/>
+                            <IonIcon size="large" color="success" icon={checkmarkSharp}/>
                             {t('RESULTS_PAGE.RECOMMENDATIONS.POSITIVE')}
                         </>
                         : 
                         <>
-                            <IonIcon size="large" color="success" icon={checkmarkSharp}/>
+                            <IonIcon size="large" color="danger" icon={closeSharp}/>
                             {t('RESULTS_PAGE.RECOMMENDATIONS.NEGATIVE')}
                         </>
                     }
                 </span>
             </IonCardTitle>
-            <IonCardContent>
-                {content}
+            <IonCardContent>                    
+                <ul>
+                    {content && content.map((item, index) => (
+                        <li key={index}>
+                        {item}
+                        </li>
+                    ))}
+                </ul>
             </IonCardContent>
         </IonCard>
     );

@@ -3,7 +3,6 @@ import "./chat.scss";
 import { IonButton, IonIcon } from "@ionic/react";
 import { send } from "ionicons/icons";
 
-import { IonCol, IonRow } from "@ionic/react";
 import { useEffect, useState, useRef } from "react";
 import useChatWebSocket from "../../../../common/hooks/useChatWebSocket";
 
@@ -18,7 +17,7 @@ interface ChatProps {
 const Chat: React.FC<ChatProps> = ({ callId }: ChatProps) => {
   const [transcript, setTranscript] = useState<Message[]>([]);
   const [message, setMessage] = useState("");
-  const { webSocketData, sendChatMessage } = useChatWebSocket(callId);
+  const { webSocketData, sendChatMessage } = useChatWebSocket();
   const bottomRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 

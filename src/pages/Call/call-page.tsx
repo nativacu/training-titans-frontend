@@ -17,11 +17,12 @@ import { useEffect } from "react";
 import CandidateCall from "./components/voice-call/voice-call";
 import TranscriptCall from "./components/chat/chat";
 
-import { RouteComponentProps, useLocation } from "react-router";
-import { LocationState } from "history";
+import { RouteComponentProps } from "react-router";
 import { exit } from "ionicons/icons";
 import VoiceCall from "./components/voice-call/voice-call";
 import Chat from "./components/chat/chat";
+import useChatWebSocket from "../../common/hooks/useChatWebSocket";
+import { useInterviewContext } from "../../common/hooks/useInterviewContext";
 
 interface CallPageProps
   extends RouteComponentProps<{
@@ -31,13 +32,25 @@ interface CallPageProps
 }
 
 const CallPage: React.FC<CallPageProps> = ({ match }) => {
-  const [t] = useTranslation("common");
-  const callId = match.params.callId;
-  const router = useIonRouter();
+	const [t] = useTranslation("common");
+	const {setChatId, chatId} = useInterviewContext();	
+	const router = useIonRouter();
+	const { interviewResults } = useInterviewContext();
+	const { endChat } = useChatWebSocket();
 
-  const handleClose = () => router.push("/results", "forward");
+	const handleClose = () => {
+		endChat();
+	};
 
-  useEffect(() => {}, []);
+	useEffect(() => {
+		setChatId(Number(match.params.callId));
+	}, [])
+
+	useEffect(() => {
+		if (interviewResults?.transcript?.length > 0) {
+			router.push(`/results/${chatId}`, 'forward')
+		}
+	}, [interviewResults])
 
   return (
     <IonPage className="call-page">
@@ -65,7 +78,7 @@ const CallPage: React.FC<CallPageProps> = ({ match }) => {
                 <VoiceCall />
               </IonCol>
               <IonCol size="9" className="chat">
-                <Chat callId={Number(callId)} />
+                <Chat callId={Number(chatId)} />
               </IonCol>
             </IonRow>
           </CardContainer>

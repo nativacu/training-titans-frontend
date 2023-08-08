@@ -3,9 +3,10 @@ import { downloadOutline } from "ionicons/icons";
 import './summary-card.scss';
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { TranscriptEntry } from "../../../common/types/InterviewResults";
 
 interface SummaryCardProps {
-    transcript: string
+    transcript: TranscriptEntry[];
 }
 
 export const SummaryCard: React.FC<SummaryCardProps> = ({transcript}: SummaryCardProps) => {
@@ -13,7 +14,7 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({transcript}: SummaryCar
     const [downloadUrl, setDownloadUrl] = useState<string>('');
 
     useEffect(() => {
-        const blob = new Blob([transcript], { type: 'text/plain' });
+        const blob = new Blob([transcript.join('\n')], { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
     }, [transcript]);
@@ -31,8 +32,21 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({transcript}: SummaryCar
                 </div>
             </IonCardTitle>
 
-            <IonCardContent>
-                {transcript}
+            <IonCardContent>                
+                {transcript.map((entry, index) => (
+                    <div key={index}>
+                        <div>
+                            <h2>YOU</h2>
+                            <div>{entry.interviewer}</div>
+                        </div>
+                        
+                        <div>
+                            <h2>CANDIDATE</h2>
+                            <div>{entry.candidate}</div>
+                        </div>
+                    </div>
+
+                ))}
             </IonCardContent>
         </IonCard>
     );

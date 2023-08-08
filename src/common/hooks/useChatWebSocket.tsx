@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-// import consumer, { CHANNEL_ID } from '../helpers/cable';
-import { Consumer, createConsumer } from '@rails/actioncable';
-import { SESSION_ID } from '../constants/session-id';
+import { makeInterviewResults } from '../types/InterviewResults';
+import { useInterviewContext } from './useInterviewContext';
 
 interface WebSocketData {
   connected: boolean;
@@ -10,9 +9,8 @@ interface WebSocketData {
 
 const CHANNEL_ID = { channel: 'ChatChannel' };
 
-const useChatWebSocket = (conversationId: number) => {
-  const URL = `ws://localhost:3000/cable?token=${SESSION_ID}&conversation_id=${conversationId}`;
-  const [consumer, setConsumer] = useState<Consumer>(createConsumer(URL));
+const useChatWebSocket = () => {
+  const { consumer, chatId, setInterviewResults } = useInterviewContext();
 
   const [webSocketData, setWebSocketData] = useState<WebSocketData>({
     connected: false,
@@ -32,8 +30,17 @@ const useChatWebSocket = (conversationId: number) => {
           setWebSocketData({ connected: false, data: null });
         },
         received: (data) => {
-          console.log(data);
-          setWebSocketData({ connected: true, data });
+          const response = data.message || data.answer;
+          const feedback = data.feedback;
+          const transcript = data.transcript;
+          if (response) {
+            setWebSocketData({ connected: true, data: response });
+          } else if (feedback) {
+            setInterviewResults(makeInterviewResults({transcript, feedback}));
+          } else {
+            console.error(data.error)
+            console.error(data)
+          }
         },
       }
     );
@@ -41,17 +48,17 @@ const useChatWebSocket = (conversationId: number) => {
     return () => {
       subscription?.unsubscribe();
     };
-  }, []);
+  }, [consumer, chatId]);
 
   const sendChatMessage = (message: string) => {
-    makeMessage({ action: 'respond', data: message })
+    makeMessage({ action: 'respond', message })
   };
 
   const endChat = () => {
     makeMessage({action: 'terminate'});
   }
 
-  const makeMessage = (data: {action: 'respond' | 'terminate', data?: string}) => {
+  const makeMessage = (data: {action: 'respond' | 'terminate', message?: string}) => {
     consumer?.send({
       identifier: JSON.stringify(CHANNEL_ID),
       command: 'message',
