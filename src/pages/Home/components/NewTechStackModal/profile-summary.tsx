@@ -27,7 +27,7 @@ const ProfileSummary = ({ profile, setStep, onStart }: ProfileSummaryProps) => {
                     {
                         profile.requirements.map((requirement) => {
                             return (
-                                <li key={requirement.technology_id}>{requirement?.name} {requirement.seniority}</li>
+                                <li key={`profile-requirement-${requirement.technology_id || requirement.id}`}>{requirement?.name} {requirement.seniority}</li>
                             )
                         })
                     }

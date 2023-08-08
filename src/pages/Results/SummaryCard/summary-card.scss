@@ -1,5 +1,9 @@
 .summary-card {
     border-radius: 12px;
+    .ion-card-content {
+        height: 580px;
+        overflow-y: scroll;
+    }
     &__header {
         display: flex;
         justify-content: space-between;

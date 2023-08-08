@@ -9,41 +9,43 @@ interface SummaryCardProps {
     transcript: TranscriptEntry[];
 }
 
-export const SummaryCard: React.FC<SummaryCardProps> = ({transcript}: SummaryCardProps) => {
+export const SummaryCard: React.FC<SummaryCardProps> = ({ transcript }: SummaryCardProps) => {
     const [t] = useTranslation('common');
     const [downloadUrl, setDownloadUrl] = useState<string>('');
 
     useEffect(() => {
-        const blob = new Blob([transcript.join('\n')], { type: 'text/plain' });
+        const summary = transcript.map((q) => `You: ${q.interviewer} \n Candidate: ${q.candidate} \n\n`);
+        const blob = new Blob(summary, { type: 'text/plain' });
         const url = URL.createObjectURL(blob);
         setDownloadUrl(url);
     }, [transcript]);
-    
+
 
     return (
         <IonCard className="ion-padding summary-card">
             <IonCardTitle>
                 <div className="summary-card__header">
                     <span>{t('RESULTS_PAGE.SUMMARY.TITLE')}</span>
-                    
+
                     <IonButton className="download-button" href={downloadUrl} download="interview_transcript.txt">
-                        <IonIcon size="large" icon={downloadOutline}/>
+                        <IonIcon size="large" icon={downloadOutline} />
                     </IonButton>
                 </div>
             </IonCardTitle>
 
-            <IonCardContent>                
+            <IonCardContent>
                 {transcript.map((entry, index) => (
                     <div key={index}>
                         <div>
-                            <h2>YOU</h2>
+                            <h2><strong>YOU</strong></h2>
                             <div>{entry.interviewer}</div>
                         </div>
-                        
+                        <br />
                         <div>
-                            <h2>CANDIDATE</h2>
+                            <h2><strong>CANDIDATE</strong></h2>
                             <div>{entry.candidate}</div>
                         </div>
+                        <br />
                     </div>
 
                 ))}
